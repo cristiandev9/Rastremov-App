@@ -4,10 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { FontAwesome } from '@expo/vector-icons';
-import MapScreen from './src/components/map/MapScreen';
-import AccountScreen from './src/components/account/AccountScreen';
-import LoginScreen from './src/components/auth/LoginScreen';
-import { AuthProvider, AuthContext } from './src/contexts/AuthContext';
+import MapScreen from './src/screens/map/MapScreen';
+import AccountScreen from './src/screens/account/AccountScreen';
+import LoginScreen from './src/screens/auth/LoginScreen';
+import { AuthProvider, AuthContext } from './src/contexts/auth/AuthContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -23,11 +23,11 @@ const App: React.FC = () => {
 };
 
 const AppNavigator: React.FC = () => {
-  const { auth } = React.useContext(AuthContext);
+  const { auth, token } = React.useContext(AuthContext);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {auth ? (
+      {auth && token ? (
         <Stack.Screen name="Main" component={MainTabNavigator} />
       ) : (
         <Stack.Screen name="Login" component={LoginScreen} />

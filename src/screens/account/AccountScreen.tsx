@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { AuthContext } from '../../contexts/AuthContext';
-import { accountStyles } from './accountStyles';
+import { AuthContext } from '../../contexts/auth/AuthContext';
+import { accountStyles } from './AccountScreenStyles';
 
 const AccountScreen: React.FC = () => {
-	const { user, signOut }= useContext(AuthContext);
+	const { user, signOut } = useContext(AuthContext);
 
 	const handleLogout = () => {
 		signOut();

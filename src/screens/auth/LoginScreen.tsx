@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { AuthContext } from '../../contexts/auth/AuthContext';
-import { loginStyles } from './loginStyles';
+import { loginStyles } from './LoginScreenStyles';
+import { AuthContextType } from './LoginScreenInterfaces';
 
 const logo = require('../../../assets/logo.png');
-
-interface AuthContextType {
-	signIn: ({ email, password }: { email: string; password: string }) => Promise<void>;
-	errorAuth: boolean | null;
-	setErrorAuth: (error: string | null | boolean) => void;
-  }
 
 const LoginScreen: React.FC = () => {
 	const { signIn, errorAuth, setErrorAuth } = useContext(AuthContext) as AuthContextType;

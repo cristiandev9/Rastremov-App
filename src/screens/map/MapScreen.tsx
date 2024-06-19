@@ -16,77 +16,14 @@ import {
 	LocationObject,
 	LocationAccuracy,
 } from "expo-location";
-import axios from "axios";
-import { mapStyles } from "./mapStyles";
+import { mapStyles } from "./MapScreenStyles";
 import { format } from "date-fns-tz";
-import { AuthContext } from "../../contexts/AuthContext";
-import Loading from "../loading/Loading";
+import { AuthContext } from "../../contexts/auth/AuthContext";
+import Loading from "../../components/loading/Loading";
+import { getDevices, getPositionsVehicles } from "../../services/api-v1";
+import { PositionData, VehicleData } from "./MapScreenInterfaces";
 
 const iconMarker = require("../../../assets/connected-marker.png");
-
-interface Attributes {
-	batteryLevel?: number;
-	blocked?: boolean;
-	charge?: boolean;
-	distance: number;
-	hours: number;
-	ignition: boolean;
-	motion: boolean;
-	rssi?: number;
-	status?: number;
-	totalDistance: number;
-	odometer?: number;
-	sat?: number;
-}
-
-interface Network {
-	cellTowers?: any[];
-	considerIp: boolean;
-	radioType: string;
-}
-
-interface PositionData {
-	accuracy: number;
-	address: string | null;
-	altitude: number;
-	attributes: Attributes;
-	course: number;
-	deviceId: number;
-	deviceTime: Date;
-	fixTime: string;
-	geofenceIds: any[] | null;
-	id: number;
-	latitude: number;
-	longitude: number;
-	network: Network | null;
-	outdated: boolean;
-	protocol: string;
-	serverTime: string;
-	speed: number;
-	valid: boolean;
-	name: string;
-	vehiclePlate: string
-	attributesDevice: any
-}
-
-interface VehicleData {
-	id: number;
-	groupId: number;
-	calendarId: number;
-	name: string;
-	attributes: Attributes;
-	uniqueId: number;
-	deviceTime: string;
-	status: string;
-	lastUpdate: string;
-	positionId: number;
-	phone: string;
-	model: string | null;
-	contact: string | null;
-	category: string | null;
-	disabled: boolean;
-	expirationTime: string | null;
-}
 
 const MapScreen: React.FC = () => {
 
@@ -131,7 +68,12 @@ const MapScreen: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
+		if (!token){
+			return;
+		}
+
 		const fetchData = async () => {
+
 			try {
 				const [positions, arrDevices] = await Promise.all([
 					getPositionsVehicles(token),
@@ -155,7 +97,7 @@ const MapScreen: React.FC = () => {
 				}
 				setLocationData(allPositions);
 			} catch (error) {
-				console.error('Error fetching data', error);
+				console.error('Ocorreu um erro ao buscar dados: ', error);
 			} finally {
 				setLoading(false);
 			}
@@ -168,29 +110,7 @@ const MapScreen: React.FC = () => {
 	}, [token]);
 
 
-	async function getPositionsVehicles(token: string) {
-		try {
-			const response = await axios.get(
-				`https://painel.rastremov.com.br/api/positions?token=${token}`
-			);
-			return response.data;
-		} catch (error) {
-			console.error("Failed to fetch data:", error);
-			throw error;
-		}
-	}
 
-	async function getDevices(token: string) {
-		try {
-			const response = await axios.get(
-				`https://painel.rastremov.com.br/api/devices?token=${token}`
-			);
-			return response.data;
-		} catch (error) {
-			console.error("Failed to fetch data:", error);
-			throw error;
-		}
-	}
 
 	useEffect(() => {
 		const watcher = watchPositionAsync(
@@ -259,7 +179,6 @@ const MapScreen: React.FC = () => {
 	};
 
 	const formatDateTime = (date: Date) => {
-		// const addedDate = addHours(date, -3);
 		return format(date, 'dd/MM/yyyy HH:mm', {
 			timeZone: 'America/Sao_Paulo',
 		});
