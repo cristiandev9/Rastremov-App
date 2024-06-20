@@ -1,11 +1,10 @@
 import axios from "axios";
 import dayjs from "dayjs";
 
-export async function getPositionsVehicles(token: string) {
-	if (!token) return;
+export async function getPositionsVehicles() {
 	try {
 		const response = await axios.get(
-			`https://painel.rastremov.com.br/api/positions?token=${token}`
+			`https://painel.rastremov.com.br/api/positions`
 		);
 		return response.data;
 	} catch (error) {
@@ -14,12 +13,11 @@ export async function getPositionsVehicles(token: string) {
 	}
 }
 
-export async function getDevices(token: string) {
-	if (!token) return;
+export async function getDevices() {
 	try {
 
 		const response = await axios.get(
-			`https://painel.rastremov.com.br/api/devices?token=${token}`
+			`https://painel.rastremov.com.br/api/devices`
 		);
 		return response.data;
 	} catch (error) {
@@ -58,5 +56,19 @@ export async function getTokenUser() {
 		);
 
 		return response.data;
+}
 
+export async function getSessionWithToken(token: string) {
+	if (!token) return;
+	try {
+
+		const response = await axios.get(
+			`https://painel.rastremov.com.br/api/session?token=${token}`
+		);
+
+		return response.data;
+	} catch (error) {
+		console.error("Ocorreu um erro ao pegar sessão:", error);
+		throw error;
+	}
 }

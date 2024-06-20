@@ -23,11 +23,11 @@ const App: React.FC = () => {
 };
 
 const AppNavigator: React.FC = () => {
-  const { auth, token } = React.useContext(AuthContext);
+  const { auth } = React.useContext(AuthContext);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {auth && token ? (
+      {auth ? (
         <Stack.Screen name="Main" component={MainTabNavigator} />
       ) : (
         <Stack.Screen name="Login" component={LoginScreen} />

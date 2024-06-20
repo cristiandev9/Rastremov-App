@@ -27,7 +27,7 @@ const iconMarker = require("../../../assets/connected-marker.png");
 
 const MapScreen: React.FC = () => {
 
-	const { token } = React.useContext<any>(AuthContext);
+	const { sessionOk, signOut } = React.useContext<any>(AuthContext);
 	const [locationUser, setLocationUser] = useState<LocationObject | null>(null);
 	const [locationData, setLocationData] = useState<PositionData[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -68,16 +68,13 @@ const MapScreen: React.FC = () => {
 	}, []);
 
 	useEffect(() => {
-		if (!token){
-			return;
-		}
 
 		const fetchData = async () => {
 
 			try {
 				const [positions, arrDevices] = await Promise.all([
-					getPositionsVehicles(token),
-					getDevices(token)
+					getPositionsVehicles(),
+					getDevices()
 				]);
 
 				const allPositions = positions.map((pos: PositionData) => {
@@ -98,6 +95,7 @@ const MapScreen: React.FC = () => {
 				setLocationData(allPositions);
 			} catch (error) {
 				console.error('Ocorreu um erro ao buscar dados: ', error);
+				// signOut();
 			} finally {
 				setLoading(false);
 			}
@@ -107,9 +105,7 @@ const MapScreen: React.FC = () => {
 
 		const interval = setInterval(fetchData, 10000);
 		return () => clearInterval(interval);
-	}, [token]);
-
-
+	}, []);
 
 
 	useEffect(() => {
