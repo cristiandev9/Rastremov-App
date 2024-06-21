@@ -57,6 +57,22 @@ export const mapStyles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
   },
+  buttonSecurityArea: {
+    backgroundColor: "#21a765",
+    padding: 10,
+    marginTop: 10,
+    borderRadius: 5,
+    width: "100%",
+    alignItems: "center",
+  },
+  buttonRemoveGeofence: {
+    backgroundColor: "red",
+    padding: 10,
+    marginTop: 10,
+    borderRadius: 5,
+    width: "100%",
+    alignItems: "center",
+  },
   buttonText: {
     color: "white",
     fontWeight: "bold",
