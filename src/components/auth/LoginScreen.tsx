@@ -38,10 +38,9 @@ const LoginScreen: React.FC = () => {
 	return (
 		<View style={loginStyles.container}>
 			<TouchableOpacity onPress={handleLogin} style={{width: '100%', height:200, marginBottom: -30, marginTop: -80}}>
-				<Image source={logo} style={loginStyles.logo} />
+				<Image source={logo} />
 			</TouchableOpacity>
 			<TextInput
-				style={loginStyles.input}
 				placeholder="E-mail"
 				value={email}
 				onChangeText={setEmail}
@@ -50,7 +49,6 @@ const LoginScreen: React.FC = () => {
 				autoCorrect={false}
 			/>
 			<TextInput
-				style={loginStyles.input}
 				placeholder="Senha"
 				value={password}
 				onChangeText={setPassword}

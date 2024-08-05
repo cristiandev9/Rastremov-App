@@ -18,6 +18,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#000000"
+      },
+      "package": "com.rastremov"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "31a13aa6-5677-4183-a1dc-8610a78b33c9"
       }
     }
   }
