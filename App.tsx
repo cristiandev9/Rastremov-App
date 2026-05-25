@@ -7,6 +7,8 @@ import { FontAwesome } from '@expo/vector-icons';
 import MapScreen from './src/screens/map/MapScreen';
 import AccountScreen from './src/screens/account/AccountScreen';
 import LoginScreen from './src/screens/auth/LoginScreen';
+import ForcePasswordChangeScreen from './src/screens/auth/ForcePasswordChangeScreen';
+import BlockedScreen from './src/screens/payment/BlockedScreen';
 import { AuthProvider, AuthContext } from './src/contexts/auth/AuthContext';
 
 const Tab = createBottomTabNavigator();
@@ -23,14 +25,18 @@ const App: React.FC = () => {
 };
 
 const AppNavigator: React.FC = () => {
-  const { auth } = React.useContext(AuthContext);
+  const { auth, mustChangePassword, isBlocked } = React.useContext(AuthContext);
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {auth ? (
-        <Stack.Screen name="Main" component={MainTabNavigator} />
-      ) : (
+      {!auth ? (
         <Stack.Screen name="Login" component={LoginScreen} />
+      ) : mustChangePassword ? (
+        <Stack.Screen name="ForcePasswordChange" component={ForcePasswordChangeScreen} />
+      ) : isBlocked ? (
+        <Stack.Screen name="Blocked" component={BlockedScreen} />
+      ) : (
+        <Stack.Screen name="Main" component={MainTabNavigator} />
       )}
     </Stack.Navigator>
   );

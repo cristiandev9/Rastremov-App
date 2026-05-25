@@ -72,3 +72,19 @@ export async function getSessionWithToken(token: string) {
 		throw error;
 	}
 }
+
+const RASTREMOV_API_URL = "https://rastremov-api.onrender.com";
+const RASTREMOV_API_TOKEN = "xWPhoGbSCoucmj3O0A6JtCeyUaJi3447mV0V0THeAbJzY9gYvkptHlvquMrkCsSE";
+
+export async function checkOverdue(customerIdBank: string): Promise<{ blocked: boolean; overduePayment?: { value: number; dueDate: string; invoiceUrl?: string; bankSlipUrl?: string } }> {
+	try {
+		const response = await axios.get(
+			`${RASTREMOV_API_URL}/users/check-overdue/${customerIdBank}?token=${RASTREMOV_API_TOKEN}`
+		);
+		return response.data;
+	} catch (error) {
+		console.error("Erro ao verificar inadimplência:", error);
+		// Em caso de falha na checagem, não bloqueia o cliente
+		return { blocked: false };
+	}
+}
